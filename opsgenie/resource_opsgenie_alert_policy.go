@@ -200,9 +200,10 @@ func resourceOpsGenieAlertPolicy() *schema.Resource {
 				Optional: true,
 				Default:  "{{alias}}",
 			},
-			"alert_description": {
+			"description": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Default:  "{{description}}",
 			},
 			"entity": {
 				Type:     schema.TypeString,
@@ -291,7 +292,7 @@ func resourceOpsGenieAlertPolicyCreate(ctx context.Context, d *schema.ResourceDa
 	message := d.Get("message").(string)
 	continue_policy := d.Get("continue_policy").(bool)
 	alias := d.Get("alias").(string)
-	alert_description := d.Get("alert_description").(string)
+	description := d.Get("description").(string)
 	entity := d.Get("entity").(string)
 	source := d.Get("source").(string)
 	ignore_original_actions := d.Get("ignore_original_actions").(bool)
@@ -305,7 +306,7 @@ func resourceOpsGenieAlertPolicyCreate(ctx context.Context, d *schema.ResourceDa
 		Message:                  message,
 		Continue:                 &continue_policy,
 		Alias:                    alias,
-		AlertDescription:         alert_description,
+		Description:              description,
 		Entity:                   entity,
 		Source:                   source,
 		IgnoreOriginalDetails:    &ignore_original_actions,
@@ -367,7 +368,7 @@ func resourceOpsGenieAlertPolicyRead(ctx context.Context, d *schema.ResourceData
 	d.Set("message", policyRes.Message)
 	d.Set("continue_policy", policyRes.Continue)
 	d.Set("alias", policyRes.Alias)
-	d.Set("alert_description", policyRes.AlertDescription)
+	d.Set("description", policyRes.Description)
 	d.Set("entity", policyRes.Entity)
 	d.Set("source", policyRes.Source)
 	d.Set("ignore_original_actions", policyRes.IgnoreOriginalActions)
@@ -409,7 +410,7 @@ func resourceOpsGenieAlertPolicyUpdate(d *schema.ResourceData, meta interface{})
 	message := d.Get("message").(string)
 	continue_policy := d.Get("continue_policy").(bool)
 	alias := d.Get("alias").(string)
-	alert_description := d.Get("alert_description").(string)
+	description := d.Get("description").(string)
 	entity := d.Get("entity").(string)
 	source := d.Get("source").(string)
 	ignore_original_actions := d.Get("ignore_original_actions").(bool)
@@ -424,7 +425,7 @@ func resourceOpsGenieAlertPolicyUpdate(d *schema.ResourceData, meta interface{})
 		Message:                  message,
 		Continue:                 &continue_policy,
 		Alias:                    alias,
-		AlertDescription:         alert_description,
+		Description:              description,
 		Entity:                   entity,
 		Source:                   source,
 		IgnoreOriginalDetails:    &ignore_original_actions,
