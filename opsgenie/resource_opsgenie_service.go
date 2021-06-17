@@ -36,6 +36,14 @@ func resourceOpsGenieService() *schema.Resource {
 				Optional:     true,
 				ValidateFunc: validateOpsGenieServiceDescription,
 			},
+			"tags": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				MaxItems: 20,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 		},
 	}
 }
@@ -48,11 +56,13 @@ func resourceOpsGenieServiceCreate(d *schema.ResourceData, meta interface{}) err
 	name := d.Get("name").(string)
 	teamId := d.Get("team_id").(string)
 	description := d.Get("description").(string)
+	tags := flattenTags(d, "tags")
 
 	createRequest := &service.CreateRequest{
 		Name:        name,
 		TeamId:      teamId,
 		Description: description,
+		Tags:        tags,
 	}
 
 	log.Printf("[INFO] Creating OpsGenie service '%s'", name)
@@ -85,6 +95,8 @@ func resourceOpsGenieServiceRead(d *schema.ResourceData, meta interface{}) error
 	d.Set("name", res.Service.Name)
 	d.Set("team_id", res.Service.TeamId)
 	d.Set("description", res.Service.Description)
+	// Not implemented: it's not possible to change the tags of an existing service.
+	//d.Set("tags", res.Service.Tags)
 
 	return nil
 }
